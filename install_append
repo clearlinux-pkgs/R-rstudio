@@ -1,0 +1,4 @@
+install -d -m 0755 %{buildroot}/usr/bin
+ln -s ../lib64/R/rstudio/bin/rstudio %{buildroot}/usr/bin
+
+cp src/gwt/lib/gin/*/LICENSE %{buildroot}/usr/share/package-licenses/R-rstudio/src_gwt_lib_gin_LICENSE

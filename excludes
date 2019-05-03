@@ -1,0 +1,7 @@
+# This file contains the output files that need %exclude. Full path
+# names, one per line.
+/usr/lib64/R/rstudio/COPYING
+/usr/lib64/R/rstudio/INSTALL
+/usr/lib64/R/rstudio/NOTICE
+/usr/lib64/R/rstudio/README.md
+/usr/lib64/R/rstudio/SOURCE
