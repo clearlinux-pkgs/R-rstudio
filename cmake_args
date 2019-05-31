@@ -1,3 +1,2 @@
--DRSTUDIO_TARGET=Desktop
 -DQT_QMAKE_EXECUTABLE=`which qmake`
 -DCMAKE_INSTALL_PREFIX=/usr/lib64/R/rstudio

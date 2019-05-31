@@ -5,3 +5,8 @@
 /usr/lib64/R/rstudio/NOTICE
 /usr/lib64/R/rstudio/README.md
 /usr/lib64/R/rstudio/SOURCE
+/usr/lib64/R/rstudio/extras/init.d/debian/rstudio-server
+/usr/lib64/R/rstudio/extras/init.d/redhat/rstudio-server
+/usr/lib64/R/rstudio/extras/init.d/suse/rstudio-server
+/usr/lib64/R/rstudio/extras/systemd/rstudio-server.redhat.service
+/usr/lib64/R/rstudio/extras/upstart/rstudio-server.redhat.conf
