@@ -4,7 +4,7 @@
 #
 Name     : R-rstudio
 Version  : 1.2.1335
-Release  : 2
+Release  : 3
 URL      : https://github.com/rstudio/rstudio/archive/v1.2.1335.tar.gz
 Source0  : https://github.com/rstudio/rstudio/archive/v1.2.1335.tar.gz
 Source1  : https://s3.amazonaws.com/rstudio-buildtools/gin-2.1.2.zip
@@ -53,20 +53,8 @@ BuildRequires : zlib-dev
 Patch1: 0001-Disable-installation-of-pandoc.patch
 
 %description
-/*
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+Overview
+------------------------------------------------------------------------
 
 %package bin
 Summary: bin components for the R-rstudio package.
@@ -123,7 +111,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1559343883
+export SOURCE_DATE_EPOCH=1560191524
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -131,13 +119,14 @@ export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
 export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%cmake .. -DQT_QMAKE_EXECUTABLE=`which qmake` \
+%cmake .. -DRSTUDIO_TARGET=Desktop \
+-DQT_QMAKE_EXECUTABLE=`which qmake` \
 -DCMAKE_INSTALL_PREFIX=/usr/lib64/R/rstudio
 make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1559343883
+export SOURCE_DATE_EPOCH=1560191524
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/R-rstudio
 cp COPYING %{buildroot}/usr/share/package-licenses/R-rstudio/COPYING
@@ -174,11 +163,6 @@ cp src/gwt/lib/gin/*/LICENSE %{buildroot}/usr/share/package-licenses/R-rstudio/s
 %exclude /usr/lib64/R/rstudio/NOTICE
 %exclude /usr/lib64/R/rstudio/README.md
 %exclude /usr/lib64/R/rstudio/SOURCE
-%exclude /usr/lib64/R/rstudio/extras/init.d/debian/rstudio-server
-%exclude /usr/lib64/R/rstudio/extras/init.d/redhat/rstudio-server
-%exclude /usr/lib64/R/rstudio/extras/init.d/suse/rstudio-server
-%exclude /usr/lib64/R/rstudio/extras/systemd/rstudio-server.redhat.service
-%exclude /usr/lib64/R/rstudio/extras/upstart/rstudio-server.redhat.conf
 /usr/lib64/R/rstudio/R/Api.R
 /usr/lib64/R/rstudio/R/Diagnostics.R
 /usr/lib64/R/rstudio/R/Options.R
@@ -251,16 +235,9 @@ cp src/gwt/lib/gin/*/LICENSE %{buildroot}/usr/share/package-licenses/R-rstudio/s
 /usr/lib64/R/rstudio/bin/postback/rpostback-pdfviewer
 /usr/lib64/R/rstudio/bin/r-ldpath
 /usr/lib64/R/rstudio/bin/rpostback
-/usr/lib64/R/rstudio/bin/rserver
-/usr/lib64/R/rstudio/bin/rserver-pam
 /usr/lib64/R/rstudio/bin/rsession
 /usr/lib64/R/rstudio/bin/rstudio
 /usr/lib64/R/rstudio/bin/rstudio-backtrace.sh
-/usr/lib64/R/rstudio/bin/rstudio-server
-/usr/lib64/R/rstudio/extras/pam/rstudio
-/usr/lib64/R/rstudio/extras/systemd/rstudio-server.service
-/usr/lib64/R/rstudio/extras/themes/README.md
-/usr/lib64/R/rstudio/extras/upstart/rstudio-server.conf
 /usr/lib64/R/rstudio/resources/CITATION
 /usr/lib64/R/rstudio/resources/NOTICE
 /usr/lib64/R/rstudio/resources/R.css
@@ -1337,6 +1314,190 @@ cp src/gwt/lib/gin/*/LICENSE %{buildroot}/usr/share/package-licenses/R-rstudio/s
 /usr/lib64/R/rstudio/resources/themes/vibrant_ink.rstheme
 /usr/lib64/R/rstudio/resources/themes/xcode.rstheme
 /usr/lib64/R/rstudio/rstudio.png
+/usr/lib64/R/rstudio/www-symbolmaps/11428C59ED71300420DCDC2DA1369729.symbolMap
+/usr/lib64/R/rstudio/www-symbolmaps/2DE6E56742A6F911F0C7D77EB19FA9DA.symbolMap
+/usr/lib64/R/rstudio/www-symbolmaps/D060A00576EE895387B7F0967DB07F14.symbolMap
+/usr/lib64/R/rstudio/www-symbolmaps/EE46712D5C9C2D28E92CB76F570CE860.symbolMap
+/usr/lib64/R/rstudio/www/.gitignore
+/usr/lib64/R/rstudio/www/404.htm
+/usr/lib64/R/rstudio/www/WEB-INF/deploy/rstudio/rpcPolicyManifest/manifest.txt
+/usr/lib64/R/rstudio/www/WEB-INF/deploy/rstudio/symbolMaps/11428C59ED71300420DCDC2DA1369729.symbolMap
+/usr/lib64/R/rstudio/www/WEB-INF/deploy/rstudio/symbolMaps/2DE6E56742A6F911F0C7D77EB19FA9DA.symbolMap
+/usr/lib64/R/rstudio/www/WEB-INF/deploy/rstudio/symbolMaps/D060A00576EE895387B7F0967DB07F14.symbolMap
+/usr/lib64/R/rstudio/www/WEB-INF/deploy/rstudio/symbolMaps/EE46712D5C9C2D28E92CB76F570CE860.symbolMap
+/usr/lib64/R/rstudio/www/css/data.css
+/usr/lib64/R/rstudio/www/css/icons.css
+/usr/lib64/R/rstudio/www/css/page.css
+/usr/lib64/R/rstudio/www/docs/keyboard.htm
+/usr/lib64/R/rstudio/www/error.htm
+/usr/lib64/R/rstudio/www/expired.htm
+/usr/lib64/R/rstudio/www/favicon.ico
+/usr/lib64/R/rstudio/www/fonts/icomoon.woff
+/usr/lib64/R/rstudio/www/images/expired.png
+/usr/lib64/R/rstudio/www/images/favicon.ico
+/usr/lib64/R/rstudio/www/images/offline.png
+/usr/lib64/R/rstudio/www/images/progress_large.gif
+/usr/lib64/R/rstudio/www/images/rstudio-logo.png
+/usr/lib64/R/rstudio/www/images/rstudio.png
+/usr/lib64/R/rstudio/www/images/signOut.png
+/usr/lib64/R/rstudio/www/images/warning.png
+/usr/lib64/R/rstudio/www/index.htm
+/usr/lib64/R/rstudio/www/js/diff.js
+/usr/lib64/R/rstudio/www/js/encrypt.min.js
+/usr/lib64/R/rstudio/www/js/workers/worker-css.js
+/usr/lib64/R/rstudio/www/js/workers/worker-html.js
+/usr/lib64/R/rstudio/www/js/workers/worker-javascript.js
+/usr/lib64/R/rstudio/www/offline.htm
+/usr/lib64/R/rstudio/www/progress.htm
+/usr/lib64/R/rstudio/www/projectnotfound.htm
+/usr/lib64/R/rstudio/www/rstudio.css
+/usr/lib64/R/rstudio/www/rstudio/0B83210F87311321EDBFE0F039B0EA20.cache.js
+/usr/lib64/R/rstudio/www/rstudio/0E471A7ED100AFCB82EF81C71F4D11F4.cache.js
+/usr/lib64/R/rstudio/www/rstudio/11428C59ED71300420DCDC2DA1369729.cache.js
+/usr/lib64/R/rstudio/www/rstudio/1A990FB4A9DA220A788C6ADB35B58BEB.cache.js
+/usr/lib64/R/rstudio/www/rstudio/2DE6E56742A6F911F0C7D77EB19FA9DA.cache.js
+/usr/lib64/R/rstudio/www/rstudio/3B078A536FB28A282A150679BB677613.cache.js
+/usr/lib64/R/rstudio/www/rstudio/7F78BE442F3A621AA71804150F547ADB.cache.js
+/usr/lib64/R/rstudio/www/rstudio/81E36B2EF63F59D153E11C892945386F.cache.js
+/usr/lib64/R/rstudio/www/rstudio/8941BE0BA4C8BA79DA858FE908DF3AA2.cache.js
+/usr/lib64/R/rstudio/www/rstudio/96E2166E8CB10B92485546FF6789922C.cache.png
+/usr/lib64/R/rstudio/www/rstudio/9B3C8E3388087096D0F1B7EFDBE92B57.cache.js
+/usr/lib64/R/rstudio/www/rstudio/A2EB630241A0BFE0FC6785A80D600916.cache.png
+/usr/lib64/R/rstudio/www/rstudio/B23DF67D16D3B3DA4CA9012A7CD1EF5B.cache.js
+/usr/lib64/R/rstudio/www/rstudio/C8087183744DB1ECD4D64C0557738C24.cache.js
+/usr/lib64/R/rstudio/www/rstudio/CA5F6D1A81901FD77C617B160C7F315E.cache.js
+/usr/lib64/R/rstudio/www/rstudio/CF976C431CA9997E6B487BA8D6686C4C.cache.js
+/usr/lib64/R/rstudio/www/rstudio/D060A00576EE895387B7F0967DB07F14.cache.js
+/usr/lib64/R/rstudio/www/rstudio/E9AADB641A2D348F0DCE8C0DD707A2EA.cache.css
+/usr/lib64/R/rstudio/www/rstudio/EE46712D5C9C2D28E92CB76F570CE860.cache.js
+/usr/lib64/R/rstudio/www/rstudio/EE695D2332E442F1DEDE0B9A5AE0F7BF.cache.js
+/usr/lib64/R/rstudio/www/rstudio/clear.cache.gif
+/usr/lib64/R/rstudio/www/rstudio/compilation-mappings.txt
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/1.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/10.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/11.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/12.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/13.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/14.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/15.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/16.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/17.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/18.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/19.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/2.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/20.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/21.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/22.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/23.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/24.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/25.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/26.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/27.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/28.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/29.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/3.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/30.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/4.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/5.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/6.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/7.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/8.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/11428C59ED71300420DCDC2DA1369729/9.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/1.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/10.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/11.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/12.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/13.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/14.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/15.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/16.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/17.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/18.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/19.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/2.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/20.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/21.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/22.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/23.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/24.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/25.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/26.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/27.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/28.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/29.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/3.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/30.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/4.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/5.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/6.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/7.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/8.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/2DE6E56742A6F911F0C7D77EB19FA9DA/9.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/1.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/10.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/11.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/12.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/13.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/14.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/15.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/16.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/17.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/18.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/19.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/2.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/20.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/21.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/22.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/23.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/24.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/25.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/26.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/27.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/28.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/29.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/3.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/30.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/4.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/5.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/6.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/7.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/8.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/D060A00576EE895387B7F0967DB07F14/9.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/1.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/10.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/11.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/12.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/13.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/14.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/15.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/16.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/17.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/18.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/19.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/2.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/20.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/21.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/22.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/23.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/24.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/25.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/26.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/27.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/28.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/29.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/3.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/30.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/4.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/5.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/6.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/7.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/8.cache.js
+/usr/lib64/R/rstudio/www/rstudio/deferredjs/EE46712D5C9C2D28E92CB76F570CE860/9.cache.js
+/usr/lib64/R/rstudio/www/rstudio/rstudio.devmode.js
+/usr/lib64/R/rstudio/www/rstudio/rstudio.nocache.js
+/usr/lib64/R/rstudio/www/templates/encrypted-sign-in.htm
+/usr/lib64/R/rstudio/www/unsupported_browser.htm
+/usr/lib64/R/rstudio/www/webkit.nocache.html
 
 %files bin
 %defattr(-,root,root,-)
