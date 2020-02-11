@@ -4,7 +4,7 @@
 #
 Name     : R-rstudio
 Version  : 1.2.1335
-Release  : 8
+Release  : 9
 URL      : https://github.com/rstudio/rstudio/archive/v1.2.1335.tar.gz
 Source0  : https://github.com/rstudio/rstudio/archive/v1.2.1335.tar.gz
 Source1  : https://s3.amazonaws.com/rstudio-buildtools/gin-2.1.2.zip
@@ -22,10 +22,8 @@ BuildRequires : R
 BuildRequires : R-dev
 BuildRequires : R-lib
 BuildRequires : apache-ant
-BuildRequires : apache-maven
 BuildRequires : boost-dev
 BuildRequires : buildreq-cmake
-BuildRequires : buildreq-mvn
 BuildRequires : buildreq-qmake
 BuildRequires : openjdk
 BuildRequires : openssl-dev
@@ -99,35 +97,40 @@ license components for the R-rstudio package.
 
 %prep
 %setup -q -n rstudio-1.2.1335
-cd ..
-%setup -q -T -D -n rstudio-1.2.1335 -b 4
-cd ..
-%setup -q -T -D -n rstudio-1.2.1335 -b 2
-cd ..
-%setup -q -T -D -n rstudio-1.2.1335 -b 1
+cd %{_builddir}
+unzip -q %{_sourcedir}/mathjax-26.zip
+cd %{_builddir}
+unzip -q %{_sourcedir}/gwt-2.8.1.zip
+cd %{_builddir}
+mkdir -p gin-2.1.2
+cd gin-2.1.2
+unzip -q %{_sourcedir}/gin-2.1.2.zip
+cd %{_builddir}/rstudio-1.2.1335
 mkdir -p dependencies/common/mathjax-26
-cp -r %{_topdir}/BUILD/mathjax-26/* %{_topdir}/BUILD/rstudio-1.2.1335/dependencies/common/mathjax-26
+cp -r %{_builddir}/mathjax-26/* %{_builddir}/rstudio-1.2.1335/dependencies/common/mathjax-26
 mkdir -p src/gwt/lib/gwt/2.8.1
-cp -r %{_topdir}/BUILD/gwt-2.8.1/* %{_topdir}/BUILD/rstudio-1.2.1335/src/gwt/lib/gwt/2.8.1
+cp -r %{_builddir}/gwt-2.8.1/* %{_builddir}/rstudio-1.2.1335/src/gwt/lib/gwt/2.8.1
 %patch1 -p1
 
 %build
 ## build_prepend content
 export LD_LIBRARY_PATH=/usr/lib64/R/lib/
+
 mkdir dependencies/common/dictionaries
 cp %{SOURCE3} src/gwt/lib
+
 GIN_BASENAME=`basename %{SOURCE1} .zip`
 mkdir -p src/gwt/lib/${GIN_BASENAME/-//}
 unzip -q -d src/gwt/lib/${GIN_BASENAME/-//} %{SOURCE1}
+
 ## build_prepend end
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571905850
+export SOURCE_DATE_EPOCH=1581447267
 mkdir -p clr-build
 pushd clr-build
-# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -140,7 +143,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1571905850
+export SOURCE_DATE_EPOCH=1581447267
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/R-rstudio
 cp %{_builddir}/rstudio-1.2.1335/COPYING %{buildroot}/usr/share/package-licenses/R-rstudio/43a6c601dc09187ccfe403679afe04988c6f9858
@@ -178,6 +181,7 @@ rm -f %{buildroot}/usr/lib64/R/rstudio/extras/upstart/rstudio-server.redhat.conf
 ## install_append content
 install -d -m 0755 %{buildroot}/usr/bin
 ln -s ../lib64/R/rstudio/bin/rstudio %{buildroot}/usr/bin
+
 cp src/gwt/lib/gin/*/LICENSE %{buildroot}/usr/share/package-licenses/R-rstudio/src_gwt_lib_gin_LICENSE
 ## install_append end
 
