@@ -4,7 +4,7 @@
 #
 Name     : R-rstudio
 Version  : 1.2.5042
-Release  : 13
+Release  : 14
 URL      : https://github.com/rstudio/rstudio/archive/v1.2.5042/rstudio-1.2.5042.tar.gz
 Source0  : https://github.com/rstudio/rstudio/archive/v1.2.5042/rstudio-1.2.5042.tar.gz
 Source1  : https://s3.amazonaws.com/rstudio-buildtools/gin-2.1.2.zip
@@ -49,9 +49,18 @@ BuildRequires : pkgconfig(Qt5Xml)
 BuildRequires : pkgconfig(Qt5XmlPatterns)
 BuildRequires : pkgconfig(gl)
 BuildRequires : pkgconfig(uuid)
+BuildRequires : qtbase-dev
+BuildRequires : qtdeclarative-dev
+BuildRequires : qtlocation-dev
+BuildRequires : qtsensors-dev
+BuildRequires : qtsvg-dev
+BuildRequires : qtwebchannel-dev
+BuildRequires : qtwebengine-dev
+BuildRequires : qtxmlpatterns-dev
 BuildRequires : zlib-dev
 Patch1: 0001-Disable-installation-of-pandoc.patch
 Patch2: 0002-first-pass-at-Boost-1.70-support.patch
+Patch3: 0003-R_Slave-R_NoEcho-for-non-Windows.patch
 
 %description
 /*
@@ -112,6 +121,7 @@ mkdir -p src/gwt/lib/gwt/2.8.1
 cp -r %{_builddir}/gwt-2.8.1/* %{_builddir}/rstudio-1.2.5042/src/gwt/lib/gwt/2.8.1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 ## build_prepend content
@@ -129,14 +139,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1587066709
+export SOURCE_DATE_EPOCH=1589554418
 mkdir -p clr-build
 pushd clr-build
-# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DRSTUDIO_TARGET=Desktop \
 -DQT_QMAKE_EXECUTABLE=`which qmake` \
@@ -145,7 +154,7 @@ make  %{?_smp_mflags}  VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1587066709
+export SOURCE_DATE_EPOCH=1589554418
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/R-rstudio
 cp %{_builddir}/gwt-2.8.1/COPYING %{buildroot}/usr/share/package-licenses/R-rstudio/d42275b8a0e5cc689d53a0c33e23a81e059ee230
